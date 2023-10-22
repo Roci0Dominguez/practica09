@@ -1,31 +1,83 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33927.289
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lista Enlazada", "Lista Enlazada\Lista Enlazada.vcxproj", "{3E78F3E2-C077-4031-AD16-183FA3935B70}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3E78F3E2-C077-4031-AD16-183FA3935B70}.Debug|x64.ActiveCfg = Debug|x64
-		{3E78F3E2-C077-4031-AD16-183FA3935B70}.Debug|x64.Build.0 = Debug|x64
-		{3E78F3E2-C077-4031-AD16-183FA3935B70}.Debug|x86.ActiveCfg = Debug|Win32
-		{3E78F3E2-C077-4031-AD16-183FA3935B70}.Debug|x86.Build.0 = Debug|Win32
-		{3E78F3E2-C077-4031-AD16-183FA3935B70}.Release|x64.ActiveCfg = Release|x64
-		{3E78F3E2-C077-4031-AD16-183FA3935B70}.Release|x64.Build.0 = Release|x64
-		{3E78F3E2-C077-4031-AD16-183FA3935B70}.Release|x86.ActiveCfg = Release|Win32
-		{3E78F3E2-C077-4031-AD16-183FA3935B70}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {94EE509E-BEC0-4DEB-BB13-992FCD569D4B}
-	EndGlobalSection
-EndGlobal
+#include <iostream>
+using namespace std;
+struct Nodo
+{
+	int dato;
+	Nodo* siguinte;
+
+};
+
+// Funcion Agregar elementos a la lista
+void agregarNodo(Nodo*& cabeza, int valor)
+{
+	Nodo* nuevoNodo = new Nodo; //creando el apuntador hacia el nuevo nodo
+	nuevoNodo->dato = valor;
+	nuevoNodo->siguinte = nullptr;
+
+	if (cabeza == nullptr)
+	{
+		cabeza = nuevoNodo;
+	}
+	else
+	{
+		Nodo* actual = cabeza;
+		while (actual->siguinte != nullptr)
+		{
+			actual = actual->siguinte;
+		}
+		actual->siguinte = nuevoNodo;
+	}
+}
+
+void imprimirlista(Nodo* cabeza)
+{
+	Nodo* actual = cabeza;
+	while (actual != nullptr)
+	{
+		cout << actual->dato << " ";
+		actual = actual->siguinte;
+	}
+	cout << endl;
+}
+
+void borrarlista(Nodo* cabeza)
+{
+	while (cabeza != nullptr)
+	{
+		Nodo* siguiente = cabeza->siguinte;
+		delete cabeza;
+		cabeza = siguiente;
+		cout << "Elemento borrado.";
+	}
+}
+
+int main()
+{
+	Nodo* cabeza = nullptr; // Declaramos un puntero de memoria nulo
+	int tamanoLista;
+	cout << "Ingrese la cantidad de elementos que desea agregar a la lista: ";
+	cin >> tamanoLista;
+
+	if (tamanoLista <= 0)
+	{
+		cout << "Cantidad de elementos no valida." << endl;
+		return 1;
+	}
+
+	for (int i = 0; i < tamanoLista; i++)
+	{
+		int valor;
+		cout << "Ingrese dato " << i + 1 << ": ";
+		cin >> valor;
+		//invocar nuestra funcion de agregar nodo
+		agregarNodo(cabeza, valor);
+
+	}
+
+	cout << "Imprimiendo lista de numeros" << endl;
+	imprimirlista(cabeza);
+
+	borrarlista(cabeza);
+
+	return 0;
+}
